@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modrinth Clone</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+     /* === Global Styles === */
+     :root {
+            --bg-base: #0d0d0d;
+            --bg-elevated: #1a1a1a;
+            --accent: #2929298a;
+            --text-primary: #ffffff;
+            --text-secondary: #a3a3a3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter", sans-serif;
+        }
+
+        body {
+            background: var(--bg-base);
+            color: var(--text-primary);
+        }
+
+        /* Layout */
+        .container {
+            display: flex;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 30px;
+            gap: 24px;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-elevated);
+            padding: 16px 24px;
+            border-bottom: 1px solid #262626;
+        }
+
+        .nav-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo {
+            height: 40px;
+            filter: brightness(0) invert(1);
+        }
+
+        .website-name {
+            font-weight: 900;
+            font-size: 24px;
+            color: var(--text-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            margin-right: 91.5px;
+            flex-grow: 1;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        .sign-in-button {
+            background-color: #0073e6;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: bold;
+        }
+
+        .sign-in-button:hover {
+            background: #3a3a3a;
+        }
+
+        /* Search Bar */
+        .search-wrapper {
+            max-width: 1440px;
+            margin-top: 40px;
+            margin-bottom: -10px;
+            margin-left: 240px;
+            padding: 0 30px;
+        }
+
+        .search-bar {
+            background: var(--bg-elevated);
+            border: 1px solid #262626;
+            border-radius: 8px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-bar input {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 16px;
+            width: 100%;
+            outline: none;
+        }
+
+        /* Filters */
+        .filters-container {
+            background: var(--bg-elevated);
+            border-radius: 12px;
+            width: 300px;
+            height: 700px;
+            padding: 20px;
+            border: 1px solid #262626;
+            flex-shrink: 0;
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .filter-group {
+            margin-bottom: 16px;
+        }
+
+        .filter-group h4 {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-group h4 i {
+            font-size: 12px;
+        }
+
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .filter-option {
+            background: transparent;
+            border: 2px solid #2929298a;
+            border-radius: 16px;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 900;
+            color: #818181;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .filter-option:hover {
+            background: #46464649;
+            color: #ffffff;
+        }
+
+        .filter-option.active {
+            background: #0073e6;
+            color: #262626;
+        }
+
+        /* Minecraft Versions Popup */
+        .versions-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--bg-elevated);
+            border: 1px solid #262626;
+            border-radius: 12px;
+            padding: 20px;
+            z-index: 1000;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .versions-popup.show {
+            display: block;
+        }
+
+        .versions-popup h4 {
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+
+        .versions-popup .filter-options {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .close-popup {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+        /* Selected Tags */
+        .selected-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .selected-tag {
+            background: var(--bg-elevated);
+            border: 1px solid var(--accent);
+            border-radius: 16px;
+            padding: 6px 12px;
+            font-size: 12px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .selected-tag:hover {
+            background: var(--accent);
+            color: var(--bg-base);
+        }
+
+        .selected-tag i {
+            font-size: 10px;
+        }
+
+        /* Mod Grid */
+        .mod-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            flex-grow: 1;
+        }
+
+        .mod-card {
+    background: var(--bg-elevated);
+    border: 1px solid #262626;
+    border-radius: 12px;
+    padding: 16px;
+    transition: transform 0.5s;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.mod-card::before {
+    content: "";
+    background-color: transparent;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 500px;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: opacity 0.5s ease;
+    z-index: 5;
+    pointer-events: none; /* Ensure it doesn’t block interactions */
+}
+
+.mod-card:hover::before {
+    opacity: 0.20;
+}
+
+
+        .mod-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .mod-image {
+            background: #2a2a2a;
+            border-radius: 8px;
+            height: 180px;
+            margin-bottom: 16px;
+            background-size: cover;
+            background-position: center; /* Centers the image */
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1),
+                filter 1s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .mod-card:hover .mod-image {
+            transform: scale(3.9) rotate(3deg);
+            filter: blur(5px);
+        }
+
+        .mod-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgb(0, 0, 0), rgba(0, 0, 0, 0.596));
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 2;
+        }
+
+        .mod-card:hover::after {
+            opacity: 1;
+        }
+
+        .mod-title {
+                transition: gap 0.5s cubic-bezier(0.4, 0, 0.2, 1);            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .mod-title img {
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: left bottom;
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+        }
+
+        .mod-card:hover .mod-title img {
+            transform: scale(2.5);
+        }
+
+        .mod-card:hover .mod-title {
+            gap: 70px;
+        }
+
+        .mod-description {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: relative;
+            z-index: 3;
+        }
+
+        .mod-stats {
+            display: flex;
+            gap: 16px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .mod-stats i {
+            margin-right: 4px;
+        }
+
+        .mod-category {
+            background: #2a2a2a42;
+            border: 2px solid #2929298a;
+            color: #818181;
+            padding: 4px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 900;
+            display: inline-block;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 4;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(20px);
+        }
+
+        .mod-card:hover .mod-category {
+            transform: translateY(-57px);
+        }
+
+        .mod-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .mod-tag {
+            background: #17134900;
+            border: 2px solid #2929298a;
+            border-radius: 12px;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: 900;
+            color: #b6b6b66e;
+        }
+        #user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#upload-button {
+    background-color: #0073e6;
+    margin-left: 10px;
+    color: white;
+    border-radius: 10px;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+}
+
+#upload-button:hover {
+    background-color: #45a049;
+}
+
+#create-button, #logout-button {
+    background-color: #2c2c2c;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+#create-button:hover, #logout-button:hover {
+    background: #3a3a3a;
+}
+
+#create-button i {
+    margin-right: 5px;
+}
+
+/* Style for SVG icons */
+.size-6 {
+    width: 24px;
+    height: 24px;
+}
+
+/* Adjust the sign-in button to include the Discord icon */
+#sign-in-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Style for the upload button (icon + text) */
+#upload-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+}
+
+/* Style for the logout button (icon only) */
+#logout-button {
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#user-nickname{
+    font-weight: 900;
+}
+
+
+
+/* Essential Tag Styles */
+.essential-tag {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: rgba(0, 128, 255, 0.75);
+    backdrop-filter: blur(4px);
+    border: 2px solid rgba(87, 171, 255, 0.8);
+    overflow: hidden;
+    width: auto;
+    max-width: 35px;
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: 4;
+    will-change: max-width, padding, transform;
+}
+
+.essential-tag svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    margin-left: -4px;
+    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.essential-text {
+    opacity: 0;
+    white-space: nowrap;
+    font-weight: 700;
+    font-size: 14px;
+    color: #e6f2ff;
+    transition: opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0.2s;
+    position: relative;
+    clip-path: polygon(0 0, 0 100%, 0 100%, 0 0);
+    transition: clip-path 0.6s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.5s ease 0.2s;
+}
+
+.mod-subtext {
+    position: absolute;
+    left: calc(100% + 8px);
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    opacity: 0;
+    transition: opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0.4s;
+}
+
+/* Hover Effects */
+.mod-card:hover .essential-tag {
+    max-width: 200px; /* Adjust this value for desired width */
+    padding: 6px 16px;
+    transform: translateX(-4%);
+}
+
+.mod-card:hover .essential-text {
+    opacity: 1;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.mod-card:hover .mod-subtext {
+    opacity: 1;
+}
+
+.mod-card:hover .essential-tag svg {
+    transform: rotate(360deg);
+}
+
+
+.website-name {
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo-container">
+                <img src="http://logobook.com/wp-content/uploads/2018/01/Banco_Pastor_logo.svg" alt="Logo" class="logo">
+                <a href="home.html" class="website-name">patchwork.</a>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="nav-link">Mods</a>
+                <a href="#" class="nav-link">Plugins</a>
+                <a href="#" class="nav-link">Blog</a>
+                <a href="#" class="nav-link">Docs</a>
+            </div>
+            <div id="user-profile" style="display: none;">
+                <img id="user-avatar" src="" alt="User Avatar" style="width: 30px; height: 30px; border-radius: 10px;">
+                <span id="user-nickname" class="user-nickname"></span>
+                <button id="upload-button" class="sign-in-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                        <path fill-rule="evenodd" d="M11.47 2.47a.75.75 0 0 1 1.06 0l4.5 4.5a.75.75 0 0 1-1.06 1.06l-3.22-3.22V16.5a.75.75 0 0 1-1.5 0V4.81L8.03 8.03a.75.75 0 0 1-1.06-1.06l4.5-4.5ZM3 15.75a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V16.5a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V16.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
+                    </svg>
+                    Upload
+                </button>
+                <button id="logout-button" class="sign-in-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                        <path fill-rule="evenodd" d="M7.5 3.75A1.5 1.5 0 0 0 6 5.25v13.5a1.5 1.5 0 0 0 1.5 1.5h6a1.5 1.5 0 0 0 1.5-1.5V15a.75.75 0 0 1 1.5 0v3.75a3 3 0 0 1-3 3h-6a3 3 0 0 1-3-3V5.25a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3V9A.75.75 0 0 1 15 9V5.25a1.5 1.5 0 0 0-1.5-1.5h-6Zm10.72 4.72a.75.75 0 0 1 1.06 0l3 3a.75.75 0 0 1 0 1.06l-3 3a.75.75 0 1 1-1.06-1.06l1.72-1.72H9a.75.75 0 0 1 0-1.5h10.94l-1.72-1.72a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+            <button id="sign-in-button" class="sign-in-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                    <path d="M14.5 12a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" />
+                    <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z" clip-rule="evenodd" />
+                </svg>
+                Sign In
+            </button>
+        </nav>
+    </header>
+
+    <!-- Search Bar -->
+    <div class="search-wrapper">
+        <div class="search-bar">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="flex-shrink: 0;">
+                <path d="M17.5 17.5L14.5834 14.5833M16.6667 9.58333C16.6667 13.4954 13.4954 16.6667 9.58333 16.6667C5.67132 16.6667 2.5 13.4954 2.5 9.58333C2.5 5.67132 5.67132 2.5 9.58333 2.5C13.4954 2.5 16.6667 5.67132 16.6667 9.58333Z" stroke="#A3A3A3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <input type="text" id="searchInput" placeholder="Search 315,874 mods...">
+        </div>
+        <div class="selected-tags" id="searchTags"></div>
+    </div>
+
+    <div class="container">
+        <!-- Filters -->
+        <div class="filters-container">
+            <div class="filters">
+                <!-- Mod Loaders -->
+                <div class="filter-group">
+                    <h4><i class="fas fa-filter"></i> Mod Loader</h4>
+                    <div class="filter-options">
+                        <div class="filter-option" data-filter="loader" data-value="Fabric"><i class="fab fa-java"></i> Fabric</div>
+                        <div class="filter-option" data-filter="loader" data-value="Forge"><i class="fas fa-cog"></i> Forge</div>
+                        <div class="filter-option" data-filter="loader" data-value="NeoForge"><i class="fas fa-cogs"></i> NeoForge</div>
+                        <div class="filter-option" data-filter="loader" data-value="Quilt"><i class="fas fa-quidditch"></i> Quilt</div>
+                        <div class="filter-option" data-filter="loader" data-value="Rift"><i class="fas fa-code-branch"></i> Rift</div>
+                    </div>
+                </div>
+
+                <!-- Minecraft Versions -->
+                <div class="filter-group">
+                    <h4><i class="fas fa-gamepad"></i> Minecraft Version</h4>
+                    <div class="filter-options">
+                        <div class="filter-option" data-filter="version" data-value="1.20.1">1.20.1</div>
+                        <div class="filter-option" data-filter="version" data-value="1.19.4">1.19.4</div>
+                        <div class="filter-option" data-filter="version" data-value="1.18.2">1.18.2</div>
+                        <div class="filter-option" id="show-all-versions"><i class="fas fa-plus"></i> Show All</div>
+                    </div>
+                </div>
+
+                <!-- Categories -->
+                <div class="filter-group">
+                    <h4><i class="fas fa-tags"></i> Category</h4>
+                    <div class="filter-options">
+                        <div class="filter-option" data-filter="category" data-value="Food"><i class="fas fa-utensils"></i> Food</div>
+                        <div class="filter-option" data-filter="category" data-value="Game Mechanics"><i class="fas fa-gamepad"></i> Game Mechanics</div>
+                        <div class="filter-option" data-filter="category" data-value="Social"><i class="fas fa-users"></i> Social</div>
+                        <div class="filter-option" data-filter="category" data-value="Optimization"><i class="fas fa-tachometer-alt"></i> Optimization</div>
+                        <div class="filter-option" data-filter="category" data-value="Storage"><i class="fas fa-box-open"></i> Storage</div>
+                        <div class="filter-option" data-filter="category" data-value="Resource Pack"><i class="fas fa-paint-brush"></i> Resource Pack</div>
+                        <div class="filter-option" data-filter="category" data-value="Datapack"><i class="fas fa-database"></i> Datapack</div>
+                        <div class="filter-option" data-filter="category" data-value="Adventure"><i class="fas fa-mountain"></i> Adventure</div>
+                        <div class="filter-option" data-filter="category" data-value="Magic"><i class="fas fa-hat-wizard"></i> Magic</div>
+                        <div class="filter-option" data-filter="category" data-value="Technology"><i class="fas fa-cogs"></i> Technology</div>
+                        <div class="filter-option" data-filter="category" data-value="Decoration"><i class="fas fa-paint-roller"></i> Decoration</div>
+                        <div class="filter-option" data-filter="category" data-value="Library"><i class="fas fa-book"></i> Library</div>
+                        <!-- New Categories -->
+                        <div class="filter-option" data-filter="category" data-value="Shader"><i class="fas fa-paint-brush"></i> Shader</div>
+                        <div class="filter-option" data-filter="category" data-value="Visual"><i class="fas fa-eye"></i> Visual</div>
+                        <div class="filter-option" data-filter="category" data-value="Utility"><i class="fas fa-tools"></i> Utility</div>
+                        <div class="filter-option" data-filter="category" data-value="Mobs"><i class="fas fa-paw"></i> Mobs</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="mod-grid" id="modGrid"></div>
+        </main>
+    </div>
+
+    <!-- Minecraft Versions Popup -->
+    <div class="versions-popup" id="versionsPopup">
+        <h4>Select Minecraft Versions</h4>
+        <div class="filter-options">
+            <div class="filter-option" data-filter="version" data-value="1.20.1">1.20.1</div>
+            <div class="filter-option" data-filter="version" data-value="1.19.4">1.19.4</div>
+            <div class="filter-option" data-filter="version" data-value="1.18.2">1.18.2</div>
+            <div class="filter-option" data-filter="version" data-value="1.17.1">1.17.1</div>
+            <div class="filter-option" data-filter="version" data-value="1.16.5">1.16.5</div>
+        </div>
+        <div class="close-popup" id="closePopup"><i class="fas fa-times"></i></div>
+    </div>
+
+<script>
+    // Handle Discord login
+    document.getElementById('sign-in-button').addEventListener('click', () => {
+        const clientId = '1333494155665735762'; // Replace with your Discord client ID
+        const redirectUri = encodeURIComponent('http://localhost:3000/callback'); // Replace with your redirect URI
+        const scope = encodeURIComponent('identify');
+        const authUrl = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
+        window.location.href = authUrl;
+    });
+    
+    // Function to update the UI with user data
+    function updateUI(userData) {
+        const userProfile = document.getElementById('user-profile');
+        const signInButton = document.getElementById('sign-in-button');
+    
+        // Update the avatar and nickname
+        document.getElementById('user-avatar').src = `https://cdn.discordapp.com/avatars/${userData.id}/${userData.avatar}.png`;
+        document.getElementById('user-nickname').textContent = userData.nickname;
+    
+        // Show the user profile and hide the sign-in button
+        userProfile.style.display = 'flex';
+        signInButton.style.display = 'none';
+    
+        // Save user data to localStorage
+        localStorage.setItem('discordUser', JSON.stringify({ avatar: userData.avatar, nickname: userData.nickname, id: userData.id }));
+    }
+    
+    // Handle the OAuth2 callback
+    const urlParams = new URLSearchParams(window.location.search);
+    const avatar = urlParams.get('avatar');
+    const nickname = urlParams.get('nickname');
+    const id = urlParams.get('id');
+    
+    if (avatar && nickname && id) {
+        updateUI({ avatar, nickname, id });
+        // Remove the query parameters from the URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+    } else {
+        // Check localStorage for existing user data
+        const userData = JSON.parse(localStorage.getItem('discordUser'));
+        if (userData) {
+            updateUI(userData);
+        }
+    }
+    
+    // Logout functionality
+    document.getElementById('logout-button').addEventListener('click', () => {
+        // Clear user data from localStorage
+        localStorage.removeItem('discordUser');
+    
+        // Reload the page to reset the UI
+        window.location.reload();
+    });
+    
+    // Fetch mods from JSON
+    async function fetchMods() {
+        try {
+            const response = await fetch('mods.json');
+            if (!response.ok) {
+                throw new Error(`Failed to fetch mods.json: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+            return data.mods;
+        } catch (error) {
+            console.error('Error fetching mods:', error);
+            return [];
+        }
+    }
+    
+    async function loadMods(mods) {
+    const modGrid = document.getElementById("modGrid");
+    modGrid.innerHTML = mods.map(mod => `
+        <article class="mod-card ${mod.essential ? 'essential' : ''}" data-id="${mod.id}">
+            ${mod.essential ? `
+                <div class="essential-tag">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M15.98 1.804a1 1 0 0 0-1.96 0l-.24 1.192a1 1 0 0 1-.784.785l-1.192.238a1 1 0 0 0 0 1.962l1.192.238a1 1 0 0 1 .785.785l.238 1.192a1 1 0 0 0 1.962 0l.238-1.192a1 1 0 0 1 .785-.785l1.192-.238a1 1 0 0 0 0-1.962l-1.192-.238a1 1 0 0 1-.785-.785l-.238-1.192ZM6.949 5.684a1 1 0 0 0-1.898 0l-.683 2.051a1 1 0 0 1-.633.633l-2.051.683a1 1 0 0 0 0 1.898l2.051.684a1 1 0 0 1 .633.632l.683 2.051a1 1 0 0 0 1.898 0l.683-2.051a1 1 0 0 1 .633-.633l2.051-.683a1 1 0 0 0 0-1.898l-2.051-.683a1 1 0 0 1-.633-.633L6.95 5.684ZM13.949 13.684a1 1 0 0 0-1.898 0l-.184.551a1 1 0 0 1-.632.633l-.551.183a1 1 0 0 0 0 1.898l.551.183a1 1 0 0 1 .633.633l.183.551a1 1 0 0 0 1.898 0l.184-.551a1 1 0 0 1 .632-.633l.551-.183a1 1 0 0 0 0-1.898l-.551-.184a1 1 0 0 1-.633-.632l-.183-.551Z"/>
+                    </svg>
+                    <span class="essential-text">
+                        Essential
+                        <span class="mod-subtext">mod</span>
+                    </span>
+                </div>
+            ` : ''}
+            <div class="mod-image" style="background-image: url('${mod.image}')"></div>
+            <div class="mod-category">${mod.loader.join(", ")}</div>
+            <h3 class="mod-title"><img src="${mod.icon}" alt="${mod.name}"> ${mod.name}</h3>
+            <p class="mod-description">${mod.description}</p>
+            <div class="mod-stats">
+                <span><i class="fas fa-download"></i> ${mod.downloads.toLocaleString()}</span>
+                <span><i class="fas fa-code-branch"></i> ${mod.version.join(", ")}</span>
+            </div>
+            <div class="mod-tags">
+                ${mod.tags.map(tag => `<span class="mod-tag">${tag}</span>`).join("")}
+            </div>
+        </article>
+    `).join("");
+
+    // Add event listeners to mod cards
+    document.querySelectorAll('.mod-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const modId = card.dataset.id;
+            window.location.href = `mod.html?id=${modId}`;
+        });
+    });
+
+    // Add dynamic color extraction for essential mods
+    document.querySelectorAll('.mod-card.essential .mod-title img').forEach(img => {
+        img.onload = function() {
+            const colors = getDominantColors(this);
+            img.style.setProperty('--color1', colors[0]);
+            img.style.setProperty('--color2', colors[1]);
+        };
+    });
+}
+    
+    // Initial Load
+    (async () => {
+        const mods = await fetchMods();
+        loadMods(mods);
+    })();
+    
+    // Filter Selection
+    const filterOptions = document.querySelectorAll('.filter-option');
+    const selectedTagsContainer = document.getElementById('selectedTags');
+    
+    filterOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            option.classList.toggle('active');
+            const filter = option.dataset.filter;
+            const value = option.dataset.value;
+    
+            if (option.classList.contains('active')) {
+                const tag = document.createElement('div');
+                tag.className = 'selected-tag';
+                tag.innerHTML = `${value} <i class="fas fa-times"></i>`;
+                selectedTagsContainer.appendChild(tag);
+    
+                // Add event listener to remove tag
+                tag.querySelector('i').addEventListener('click', () => {
+                    option.classList.remove('active');
+                    tag.remove();
+                });
+            } else {
+                const tag = Array.from(selectedTagsContainer.children).find(
+                    t => t.textContent.trim() === value
+                );
+                if (tag) tag.remove();
+            }
+        });
+    });
+
+    
+    
+    // Search Functionality
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', async () => {
+        const query = searchInput.value.toLowerCase();
+        const mods = await fetchMods();
+        const filteredMods = mods.filter(mod => 
+            mod.name.toLowerCase().includes(query) || 
+            mod.description.toLowerCase().includes(query) ||
+            mod.tags.some(tag => tag.toLowerCase().includes(query))
+        );
+        loadMods(filteredMods);
+    });
+    
+    // Minecraft Versions Popup
+    const showAllVersions = document.getElementById('show-all-versions');
+    const versionsPopup = document.getElementById('versionsPopup');
+    const closePopup = document.getElementById('closePopup');
+    
+    showAllVersions.addEventListener('click', () => {
+        versionsPopup.classList.add('show');
+    });
+    
+    closePopup.addEventListener('click', () => {
+        versionsPopup.classList.remove('show');
+    });
+    </script>
+</body>
+</html>

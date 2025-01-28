@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mod Page - patchwork.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* === Global Styles === */
+        :root {
+            --bg-base: #0d0d0d;
+            --bg-elevated: #1a1a1a;
+            --accent: #2929298a;
+            --text-primary: #ffffff;
+            --text-secondary: #a3a3a3;
+            --border-color: #262626;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter", sans-serif;
+        }
+
+        body {
+            background: var(--bg-base);
+            color: var(--text-primary);
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-elevated);
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo {
+            height: 40px;
+            filter: brightness(0) invert(1);
+        }
+
+        .website-name {
+            font-weight: 900;
+            font-size: 24px;
+            color: var(--text-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            margin-right: 50px;
+            flex-grow: 1;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        .sign-in-button {
+            background-color: #0073e6;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: bold;
+        }
+
+        .sign-in-button:hover {
+            background: #3a3a3a;
+        }
+
+        /* Mod Page Layout */
+        .container {
+            display: flex;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 30px;
+            gap: 24px;
+        }
+
+        .main-content {
+            flex: 1;
+        }
+
+        .mod-header {
+            background: var(--bg-elevated);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .mod-icon {
+            width: 128px;
+            height: 128px;
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+
+        .mod-meta {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .mod-meta h1 {
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .mod-stats {
+            display: flex;
+            gap: 24px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .mod-stats span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .mod-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .mod-tag {
+            background: transparent;
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            padding: 4px 12px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .description-section {
+            background: var(--bg-elevated);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .description-section h2 {
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        .versions-container {
+            background: var(--bg-elevated);
+            border-radius: 12px;
+            padding: 24px;
+            width: 300px;
+            flex-shrink: 0;
+        }
+
+        .versions-container h2 {
+            font-size: 20px;
+            margin-bottom: 16px;
+        }
+
+        .version-card {
+            background: var(--bg-base);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 12px;
+        }
+
+        .version-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .version-header h3 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .version-meta {
+            color: var(--text-secondary);
+            font-size: 10px;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .download-btn {
+            background: var(--accent);
+            color: var(--text-primary);
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .download-btn:hover {
+            background: #3a3a3a;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .versions-container {
+                width: 100%;
+            }
+        }
+
+        /* Gallery Styles */
+        .gallery-section {
+            background: var(--bg-elevated);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .gallery-item {
+            position: relative;
+            padding-top: 56.25%; /* 16:9 aspect ratio */
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .gallery-item img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Trailer Video Styles */
+        .trailer-section {
+            background: transparent;
+            border-radius: 12px;
+            padding: 0px;
+            margin-bottom: 24px;
+        }
+
+        .trailer-container {
+            position: relative;
+            padding-top: 56.25%; /* 16:9 aspect ratio */
+        }
+
+        .trailer-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo-container">
+                <img src="http://logobook.com/wp-content/uploads/2018/01/Banco_Pastor_logo.svg" alt="Logo" class="logo">
+                <div class="website-name">patchwork.</div>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Mods</a>
+                <a href="#" class="nav-link">Plugins</a>
+                <a href="#" class="nav-link">Blog</a>
+                <a href="#" class="nav-link">Docs</a>
+            </div>
+            <button class="sign-in-button">Sign In</button>
+        </nav>
+    </header>
+
+    <div class="container" id="modContainer">
+        <!-- Content will be dynamically loaded -->
+    </div>
+
+    <script>
+        async function loadMod() {
+            const params = new URLSearchParams(window.location.search);
+            const modId = params.get('id');
+            
+            if (!modId) {
+                modContainer.innerHTML = `<p class="error">Mod ID is missing in the URL.</p>`;
+                return;
+            }
+
+            try {
+                const response = await fetch('mods.json');
+                const data = await response.json();
+                const mod = data.mods.find(m => m.id === parseInt(modId));
+                
+                if (!mod) throw new Error('Mod not found');
+
+                const latestVersion = mod.versions ? mod.versions.reduce((latest, current) => 
+                    new Date(current.date) > new Date(latest.date) ? current : latest
+                ) : null;
+
+                const container = document.getElementById('modContainer');
+                container.innerHTML = `
+                    <main class="main-content">
+                        <div class="mod-header">
+                            <img src="${mod.icon}" class="mod-icon" alt="${mod.name}">
+                            <div class="mod-meta">
+                                <h1>${mod.name}</h1>
+                                <div class="mod-stats">
+                                    <span><i class="fas fa-download"></i> ${mod.downloads.toLocaleString()} downloads</span>
+                                    <span>Updated ${mod.details?.updated || 'N/A'}</span>
+                                </div>
+                                <div class="mod-tags">
+                                    ${mod.tags.map(tag => `<span class="mod-tag">${tag}</span>`).join("")}
+                                </div>
+                            </div>
+                        </div>
+
+                        ${mod.trailer ? `
+                            <div class="trailer-section">
+                                <div class="trailer-container">
+                                    <iframe src="https://www.youtube.com/embed/${getYouTubeId(mod.trailer)}"
+                                        title="${mod.name} Trailer"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen>
+                                    </iframe>
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        ${mod.gallery && mod.gallery.length > 0 ? `
+                            <div class="gallery-section">
+                                <h2>Gallery</h2>
+                                <div class="gallery-grid">
+                                    ${mod.gallery.map(img => `
+                                        <div class="gallery-item">
+                                            <img src="${img}" alt="Mod screenshot">
+                                        </div>
+                                    `).join("")}
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        <div class="description-section">
+                            <h2>Description</h2>
+                            <p>${mod.description}</p>
+                        </div>
+                    </main>
+
+                    <div class="versions-container">
+                        ${mod.versions ? mod.versions.map(version => `
+                            <div class="version-card">
+                                <div class="version-header">
+                                    <h3>${version.version}</h3>
+                                    <span class="mod-tag">${version.release_type}</span>
+                                </div>
+                                <div class="version-meta">
+                                    <span>${new Date(version.date).toLocaleDateString()}</span>
+                                    <span>•</span>
+                                    <span>${version.downloads?.toLocaleString() || 'N/A'} downloads</span>
+                                </div>
+                                <button class="download-btn">
+                                    <i class="fas fa-download"></i> Download
+                                </button>
+                            </div>
+                        `).join("") : '<p>No versions available.</p>'}
+                    </div>
+                `;
+            } catch (error) {
+                modContainer.innerHTML = `<p class="error">Error loading mod details: ${error.message}</p>`;
+            }
+        }
+
+        // Helper function to extract YouTube video ID
+        function getYouTubeId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        // Load the mod when page loads
+        loadMod();
+    </script>
+</body>
+</html>

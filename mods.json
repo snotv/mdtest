@@ -1,0 +1,198 @@
+{
+    "mods": [
+        {
+            "id": 0,
+            "name": "Complementary Shaders - Unbound",
+            "description": "Complementary Shaders is a shader pack for Minecraft Java Edition with exceptional attention to detail, high standards of quality, and top tier optimisation.",
+            "icon": "https://media.forgecdn.net/avatars/thumbnails/875/480/64/64/638298072228596362.png",
+            "image": "https://media.forgecdn.net/attachments/726/652/unbound3_cherryrainbow.png",
+            "trailer": "https://www.youtube.com/watch?v=ZGwoSYNPD1o&embeds_referring_euri=https%3A%2F%2Fmodrinth.com%2F&source_ve_path=Mjg2NjY",
+            "gallery": [
+                "https://media.forgecdn.net/attachments/726/652/unbound3_cherryrainbow.png",
+                "https://www.complementary.dev/assets/img/newScreenshots/unbound1_coast.jpg",
+                "https://www.complementary.dev/assets/img/newScreenshots/unbound2_vertoakCloud.jpg"
+            ],
+            "loader": ["Fabric"],
+            "version": ["1.20.1"],
+            "downloads": 1200000,
+            "essential": true,
+            "tags": ["Shader", "Visual"],
+            "details": {
+                "author": "EminGTR",
+                "license": "All Rights Reserved",
+                "updated": "2023-07-15",
+                "dependencies": ["Minecraft 1.20+"]
+            },
+            "award": {
+                "reason": "1M+ Downloads",
+                "icon": "https://cdn-icons-png.flaticon.com/512/992/992700.png"
+            },
+            "versions": [
+                {
+                    "version": "1.20.1",
+                    "release_type": "Release",
+                    "date": "2023-07-15",
+                    "downloads": 1200000,
+                    "game_version": "1.20.1",
+                    "file_size": "2.5 MB",
+                    "download_url": "https://cdn.modrinth.com/data/R6NEzAwj/versions/Z1zqMzjh/ComplementaryUnbound_r5.4.zip"
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "name": "Fresh Animations",
+            "description": "Fresh Animations is a work in progress resource pack that gives an animation overhaul to the creatures in the default look of Minecraft. The aim is to make the mobs more dynamic and believable.",
+            "icon": "https://media.forgecdn.net/avatars/thumbnails/764/889/64/64/638100269802655822.png",
+            "image": "https://media.forgecdn.net/attachments/812/419/fa1.png",
+            "trailer": "",
+            "gallery": [],
+            "loader": ["Forge"],
+            "version": ["1.19.4"],
+            "downloads": 854000,
+            "tags": ["Shader", "Visual"],
+            "details": {
+                "author": "FreshLX",
+                "license": "MIT",
+                "updated": "2023-06-20",
+                "dependencies": ["Minecraft 1.19.4+"]
+            },
+            "award": {
+                "reason": "1M+ Downloads",
+                "icon": "https://cdn-icons-png.flaticon.com/512/992/992700.png"
+            },
+            "versions": [
+                {
+                    "version": "1.19.4",
+                    "release_type": "Release",
+                    "date": "2023-06-20",
+                    "downloads": 854000,
+                    "game_version": "1.19.4",
+                    "file_size": "1.8 MB",
+                    "download_url": "/path/to/your/mod/file.jar"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Naturalist",
+            "description": "Have you ever wanted a truly immersive animal mod, where animals interact with each other realistically? Naturalist adds more animals to the game that behave as they do in real life.",
+            "icon": "https://media.forgecdn.net/avatars/thumbnails/628/827/64/64/638026024760909658_animated.gif",
+            "image": "https://i.ibb.co/cJ97xGL/pGgtOCC.jpg",
+            "trailer": "", 
+            "gallery": [],
+            "loader": ["NeoForge"],
+            "version": ["1.18.2"],
+            "downloads": 512000,
+            "tags": ["Utility", "Mobs"],
+            "details": {
+                "author": "AlexNijjar",
+                "license": "GPL-3.0",
+                "updated": "2023-05-10",
+                "dependencies": ["Minecraft 1.18.2+"]
+            },
+            "versions": [
+                {
+                    "version": "1.18.2",
+                    "release_type": "Release",
+                    "date": "2023-05-10",
+                    "downloads": 512000,
+                    "game_version": "1.18.2",
+                    "file_size": "3.2 MB",
+                    "download_url": "/path/to/your/mod/file.jar"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Bare Bones",
+            "description": "Minecraft with the style of the trailers",
+            "icon": "https://cdn.modrinth.com/data/rox3U8B6/031fc7e4653d64d5d2efacc6130e8b8c3f389ab4.png",
+            "image": "https://cdn.modrinth.com/data/rox3U8B6/images/58c3aa9aa281f4378bda0f177df0d029fa501cc2.jpeg",
+            "trailer": "https://www.youtube.com/watch?v=C35IRiIwO2U",
+            "gallery": [],
+            "loader": ["NeoForge"],
+            "version": ["1.18.2"],
+            "downloads": 512000,
+            "tags": ["Utility", "Mobs"],
+            "details": {
+                "author": "AlexNijjar",
+                "license": "GPL-3.0",
+                "updated": "2023-05-10",
+                "dependencies": ["Minecraft 1.18.2+"]
+            },
+            "versions": [
+                {
+                    "version": "1.18.2",
+                    "release_type": "Release",
+                    "date": "2023-05-10",
+                    "downloads": 512000,
+                    "game_version": "1.18.2",
+                    "file_size": "3.2 MB",
+                    "download_url": "/path/to/your/mod/file.jar"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "name": "Tectonic",
+            "description": "Massively altered world generation with mountain ranges, underground rivers and more!",
+            "icon": "https://cdn.modrinth.com/data/lWDHr9jE/c7a4e685e92e64d07860ecee7b8669022fd0985d_96.webp",
+            "image": "https://cdn.modrinth.com/data/lWDHr9jE/images/e938f5657bc99037414b8bed8a3e271b65337837.png",
+            "trailer": "https://www.youtube.com/watch?v=C35IRiIwO2U",
+            "gallery": [],
+            "loader": ["NeoForge"],
+            "version": ["1.18.2"],
+            "downloads": 512000,
+            "tags": ["Utility", "Mobs"],
+            "details": {
+                "author": "AlexNijjar",
+                "license": "GPL-3.0",
+                "updated": "2023-05-10",
+                "dependencies": ["Minecraft 1.18.2+"]
+            },
+            "versions": [
+                {
+                    "version": "1.18.2",
+                    "release_type": "Release",
+                    "date": "2023-05-10",
+                    "downloads": 512000,
+                    "game_version": "1.18.2",
+                    "file_size": "3.2 MB",
+                    "download_url": "/path/to/your/mod/file.jar"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "name": "Iris Shaders",
+            "description": "A modern shader pack loader for Minecraft intended to be compatible with existing OptiFine shader packs",
+            "icon": "https://cdn.modrinth.com/data/YL57xq9U/18d0e7f076d3d6ed5bedd472b853909aac5da202_96.webp",
+            "image": "https://cdn.modrinth.com/data/YL57xq9U/images/2fbd04f5d123577696e29b28bb7981a2bc95a0c8.png",
+            "trailer": "https://www.youtube.com/watch?v=C35IRiIwO2U",
+            "gallery": [],
+            "loader": ["Fabric"],
+            "version": ["1.20.1"],
+            "downloads": 5048305,
+            "tags": ["Shader", "Visual"],
+            "essential": true,
+            "details": {
+                "author": "AlexNijjar",
+                "license": "GPL-3.0",
+                "updated": "2023-05-10",
+                "dependencies": ["Minecraft 1.18.2+"]
+            },
+            "versions": [
+                {
+                    "version": "1.18.2",
+                    "release_type": "Release",
+                    "date": "2023-05-10",
+                    "downloads": 512000,
+                    "game_version": "1.18.2",
+                    "file_size": "3.2 MB",
+                    "download_url": "/path/to/your/mod/file.jar"
+                }
+            ]
+        }
+    ]
+}

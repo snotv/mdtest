@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Patchwork</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'Minecraft';
+            src: url('Minecraft.ttf') format('truetype');
+        }
+
+        /* === Global Styles === */
+        :root {
+            --bg-base: #0d0d0d;
+            --bg-elevated: #1a1a1a;
+            --accent: #2929298a;
+            --text-primary: #ffffff;
+            --text-secondary: #a3a3a3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+    color: var(--text-primary);
+    font-family: "Inter", sans-serif;
+    background: 
+        linear-gradient(to top, rgb(0, 0, 0), rgba(255, 255, 255, 0.2)),
+        url("https://cdn.modrinth.com/data/olO1TaXd/images/276fac920a7fb1dfb6c4660c546d4b71be137f37.jpeg") center center / cover no-repeat;
+    height: 110vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Static grain overlay */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)'/%3E%3C/svg%3E") repeat;
+    background-size: 700px;
+    background-color: transparent;
+    pointer-events: none;
+    z-index: -5;
+    opacity: 0.3;
+    background-repeat: repeat;
+
+}
+
+
+
+        /* Header */
+        .header {
+            background: var(--bg-elevated);
+            padding: 16px 24px;
+            border-bottom: 1px solid #262626;
+        }
+
+        .nav-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo {
+            height: 40px;
+            filter: brightness(0) invert(1);
+        }
+
+        .website-name {
+            font-weight: 900;
+            font-size: 24px;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            margin-right: 200px;
+            flex-grow: 1;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        .sign-in-button {
+            background-color: #0073e6;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: bold;
+        }
+
+        .sign-in-button:hover {
+            background: #3a3a3a;
+        }
+
+        /* === Home Page Styles === */
+        .home-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .home-logo {
+            height: 220px;
+            filter: brightness(0) invert(1);
+            margin-bottom: 20px;
+        }
+
+
+        /* Title Animation */
+        @keyframes fontSwitch {
+            0%, 45% { 
+                font-family: 'Inter', sans-serif;
+                transform: scale(1);
+            }
+            50%, 95% { 
+                font-family: 'Minecraft', sans-serif;
+                transform: scale(1.05);
+            }
+            100% { 
+                font-family: 'Inter', sans-serif;
+                transform: scale(1);
+            }
+        }
+
+        .home-title {
+            font-weight: 900;
+            font-size: 68px;
+            color: var(--text-primary);
+            margin-bottom: 30px;
+            animation: fontSwitch 2s infinite;
+            position: relative;
+        }
+
+        .home-title::before {
+            content: 'patchwork.';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            z-index: -1;
+        }
+
+        .explore-button {
+            background: #0073e6;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .explore-button:hover {
+            background: #005bb5;
+            transform: translateY(-2px);
+        }
+
+        .mod-cards-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 90px;
+            pointer-events: none;
+        }
+
+        .mod-card-side {
+            width: 450px; /* Increased size */
+            background: var(--bg-elevated);
+            border: 1px solid #262626;
+            border-radius: 12px;
+            padding: 20px;
+            transition: transform 0.3s, opacity 0.3s, box-shadow 0.3s;
+            opacity: 0.9;
+            pointer-events: all;
+            transform: rotate(0deg); /* Slight rotation */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .mod-card-side::before {
+            content: "";
+            background-color: transparent;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 500px;
+            opacity: 0;
+            top: 0;
+            left: 0;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transition: opacity 0.5s ease;
+            z-index: 5;
+            pointer-events: none; /* Ensure it doesn’t block interactions */
+        }
+
+        .mod-card-side:hover::before {
+            opacity: 0.20;
+        }
+
+        .mod-card-side:hover {
+            opacity: 1;
+            transform: translateY(-8px) rotate(-1deg); /* Hover effect */
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .mod-image {
+            background: #2a2a2a;
+            border-radius: 8px;
+            height: 200px; /* Increased size */
+            margin-bottom: 16px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            z-index: 1;
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1),
+                filter 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .mod-card-side:hover .mod-image {
+            transform: scale(3.9) rotate(3deg);
+            filter: blur(5px);
+        }
+
+        .mod-card-side::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgb(0, 0, 0), rgba(0, 0, 0, 0.596));
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 2;
+        }
+
+        .mod-card-side:hover::after {
+            opacity: 1;
+        }
+
+        .mod-title {
+            transition: gap 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 900;
+            font-size: 25px; /* Increased size */
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .mod-card-side:hover .mod-title {
+            gap: 70px;
+        }
+
+        .mod-description {
+            color: var(--text-secondary);
+            font-size: 16px; /* Increased size */
+            line-height: 1.5;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: relative;
+            z-index: 3;
+        }
+
+        .mod-stats {
+            display: flex;
+            gap: 16px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .mod-stats i {
+            margin-right: 4px;
+        }
+
+        .essential-tag {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            background: rgba(0, 128, 255, 0.75);
+            backdrop-filter: blur(4px);
+            border: 2px solid rgba(87, 171, 255, 0.8);
+            overflow: hidden;
+            width: auto;
+            max-width: 35px;
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            z-index: 4;
+            will-change: max-width, padding, transform;
+        }
+
+        .essential-tag svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            margin-left: -4px;
+            transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .essential-text {
+            opacity: 0;
+            white-space: nowrap;
+            font-weight: 700;
+            font-size: 14px;
+            color: #e6f2ff;
+            transition: opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0.2s;
+            position: relative;
+            clip-path: polygon(0 0, 0 100%, 0 100%, 0 0);
+            transition: clip-path 0.6s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.5s ease 0.2s;
+        }
+
+        .mod-subtext {
+            position: absolute;
+            left: calc(100% + 8px);
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.6);
+            opacity: 0;
+            transition: opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0.4s;
+        }
+
+        .mod-card-side:hover .essential-tag {
+            max-width: 200px; /* Adjust this value for desired width */
+            padding: 6px 16px;
+            transform: translateX(-4%);
+        }
+
+        .mod-card-side:hover .essential-text {
+            opacity: 1;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .mod-card-side:hover .mod-subtext {
+            opacity: 1;
+        }
+
+        .mod-card-side:hover .essential-tag svg {
+            transform: rotate(360deg);
+        }
+
+        .mod-card-side {
+            background: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .mod-title img {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: left bottom;
+        }
+
+        .mod-card-side:hover .mod-title img {
+            transform: scale(2.5);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo-container">
+                <img src="http://logobook.com/wp-content/uploads/2018/01/Banco_Pastor_logo.svg" alt="Logo" class="logo">
+                <a href="home.html" class="website-name">patchwork.</a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Mods</a>
+                <a href="#" class="nav-link">Plugins</a>
+                <a href="#" class="nav-link">Blog</a>
+                <a href="#" class="nav-link">Docs</a>
+            </div>
+            <div id="user-profile" style="display: none;">
+                <img id="user-avatar" src="" alt="User Avatar" style="width: 30px; height: 30px; border-radius: 10px;">
+                <span id="user-nickname" class="user-nickname"></span>
+                <button id="upload-button" class="sign-in-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                        <path fill-rule="evenodd" d="M11.47 2.47a.75.75 0 0 1 1.06 0l4.5 4.5a.75.75 0 0 1-1.06 1.06l-3.22-3.22V16.5a.75.75 0 0 1-1.5 0V4.81L8.03 8.03a.75.75 0 0 1-1.06-1.06l4.5-4.5ZM3 15.75a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V16.5a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V16.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
+                    </svg>
+                    Upload
+                </button>
+                <button id="logout-button" class="sign-in-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                        <path fill-rule="evenodd" d="M7.5 3.75A1.5 1.5 0 0 0 6 5.25v13.5a1.5 1.5 0 0 0 1.5 1.5h6a1.5 1.5 0 0 0 1.5-1.5V15a.75.75 0 0 1 1.5 0v3.75a3 3 0 0 1-3 3h-6a3 3 0 0 1-3-3V5.25a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3V9A.75.75 0 0 1 15 9V5.25a1.5 1.5 0 0 0-1.5-1.5h-6Zm10.72 4.72a.75.75 0 0 1 1.06 0l3 3a.75.75 0 0 1 0 1.06l-3 3a.75.75 0 1 1-1.06-1.06l1.72-1.72H9a.75.75 0 0 1 0-1.5h10.94l-1.72-1.72a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Home Page Content -->
+    <div class="home-container">
+        <img src="http://logobook.com/wp-content/uploads/2018/01/Banco_Pastor_logo.svg" alt="Logo" class="home-logo">
+        <h1 class="home-title">patchwork.</h1>
+        <button class="explore-button" onclick="window.location.href='index.html'">Explore Mods</button>
+
+        <!-- Mod Cards on Left and Right -->
+        <div class="mod-cards-container">
+            <div class="mod-card-side" id="leftModCard"></div>
+            <div class="mod-card-side" id="rightModCard"></div>
+        </div>
+
+        <!-- Background Animation -->
+        <div class="background-animation"></div>
+    </div>
+
+    <script>
+        // Fetch mods from mods.json
+        async function fetchMods() {
+            try {
+                const response = await fetch('mods.json');
+                const data = await response.json();
+                return data.mods;
+            } catch (error) {
+                console.error('Error loading mods:', error);
+                return [];
+            }
+        }
+
+        // Create a mod card HTML
+        function createModCard(mod) {
+            return `
+                ${mod.essential ? `
+                    <div class="essential-tag">
+                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M15.98 1.804a1 1 0 0 0-1.96 0l-.24 1.192a1 1 0 0 1-.784.785l-1.192.238a1 1 0 0 0 0 1.962l1.192.238a1 1 0 0 1 .785.785l.238 1.192a1 1 0 0 0 1.962 0l.238-1.192a1 1 0 0 1 .785-.785l1.192-.238a1 1 0 0 0 0-1.962l-1.192-.238a1 1 0 0 1-.785-.785l-.238-1.192ZM6.949 5.684a1 1 0 0 0-1.898 0l-.683 2.051a1 1 0 0 1-.633.633l-2.051.683a1 1 0 0 0 0 1.898l2.051.684a1 1 0 0 1 .633.632l.683 2.051a1 1 0 0 0 1.898 0l.683-2.051a1 1 0 0 1 .633-.633l2.051-.683a1 1 0 0 0 0-1.898l-2.051-.683a1 1 0 0 1-.633-.633L6.95 5.684ZM13.949 13.684a1 1 0 0 0-1.898 0l-.184.551a1 1 0 0 1-.632.633l-.551.183a1 1 0 0 0 0 1.898l.551.183a1 1 0 0 1 .633.633l.183.551a1 1 0 0 0 1.898 0l.184-.551a1 1 0 0 1 .632-.633l.551-.183a1 1 0 0 0 0-1.898l-.551-.184a1 1 0 0 1-.633-.632l-.183-.551Z"/>
+                    </svg>
+                        <span class="essential-text">
+                            Essential
+                            <span class="mod-subtext">mod</span>
+                        </span>
+                    </div>
+                ` : ''}
+                <div class="mod-image" style="background-image: url('${mod.image}')"></div>
+                <h3 class="mod-title"><img src="${mod.icon}" alt="${mod.name}"> ${mod.name}</h3>
+                <p class="mod-description">${mod.description}</p>
+                <div class="mod-stats">
+                    <span><i class="fas fa-download"></i> ${mod.downloads.toLocaleString()}</span>
+                    <span><i class="fas fa-code-branch"></i> ${mod.version[0]}</span>
+                </div>
+            `;
+        }
+
+        // Load random mods into left and right cards
+        async function loadRandomMods() {
+            const mods = await fetchMods();
+            const shuffled = mods.sort(() => 0.5 - Math.random());
+
+            document.getElementById('leftModCard').innerHTML = createModCard(shuffled[0]);
+            document.getElementById('rightModCard').innerHTML = createModCard(shuffled[1]);
+        }
+
+        // Initial load
+        loadRandomMods();
+    </script>
+</body>
+</html>
+</body>
+</html>
